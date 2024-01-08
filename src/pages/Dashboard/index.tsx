@@ -2,45 +2,50 @@ import React,{useContext} from "react";
 import { Text,View,SafeAreaView,TouchableOpacity, StyleSheet,Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { propsStack } from "../../utils";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function DashBoard(){
 
   const navigation = useNavigation<propsStack>();
+  const { SignOut } = useContext(AuthContext);
+  const handleLogout = () => {
+    SignOut();
+  };
     return(
         <View style={styles.container}>
-          <Text style={styles.title}>Menu</Text>
+          <Text style={styles.title} onPress={handleLogout}>Sair</Text>
         <View style={styles.buttonPair}>
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('FoundAnItem')}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Book')}>
             <Image 
-            source={require('../../assets/procurar.png')}
+            source={require('../../assets/reserva.png')}
             style={styles.Image}
             />
-            <Text style={styles.Text}>Procurar Item</Text>
+            <Text style={styles.Text}>Reservar</Text>
           </TouchableOpacity>
   
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('PublishAnItem')}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Horas')}>
             
             <Image 
-            source={require('../../assets/publicacao.png')}
+            source={require('../../assets/cardapio.png')}
             style={styles.Image}
             />
-            <Text style={styles.Text}>Publicar Item</Text>
+            <Text style={styles.Text}>Menu</Text>
           </TouchableOpacity>
         </View> 
   
         <View style={styles.buttonPair}>
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('MyItems')}>
+          <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Reservations')}>
           <Image 
-            source={require('../../assets/postagens.png')}
+            source={require('../../assets/book.png')}
             style={styles.Image}
             />
-            <Text style={styles.Text}>Meu Items</Text>
+            <Text style={styles.Text}>Minhas Rservas</Text>
             
           </TouchableOpacity>
   
           <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Profile')}>
           <Image 
-            source={require('../../assets/do-utilizador.png')}
+            source={require('../../assets/cara.png')}
             style={styles.Image}
             />
            <Text style={styles.Text}>Meu Perfil</Text>
@@ -67,13 +72,15 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width:150,
         height:200,
+        
       },
       Text:{
         fontWeight:'bold',
         fontSize:14,
         justifyContent:'center',
         alignItems:'center',
-         marginLeft:19
+         marginLeft:19,
+         paddingHorizontal:20
       },
       Image:{
         width: 70,
@@ -89,3 +96,7 @@ const styles = StyleSheet.create({
         marginBottom:60
       }
 })
+
+function SignOut() {
+  throw new Error("Function not implemented.");
+}

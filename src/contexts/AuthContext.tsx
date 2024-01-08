@@ -1,6 +1,7 @@
 import React,{useState,createContext, Children, ReactNode,useEffect} from "react";
 import { api } from "../services/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios, { AxiosError } from "axios";
 
 type AuthContextData = {
     user: UserProps;
@@ -9,6 +10,7 @@ type AuthContextData = {
     loadingAuth:boolean;
     loading:boolean
     SignOut:() => Promise<void>;
+    SignUp:(creadentials:SignUpProps)=>Promise<void>
 }
 
 type UserProps = {
@@ -25,6 +27,13 @@ type AuthProviderProps = {
 type SignInProps = {
     email: string;
     password: string
+}
+
+type SignUpProps = {
+    email: string;
+    password: string
+    name:string,
+    phone:string
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -71,6 +80,57 @@ useEffect(()=>{
 
     getUser();
 },[])
+
+
+async function SignUp({ email, password, phone, name }: SignUpProps) {
+    setLoadingAuth(true);
+  
+    try {
+      const response = await api.post('/users', {
+        email,
+        password,
+        phone,
+        name,
+      });
+  
+      const { id, token } = response.data;
+  
+      // Convertendo objeto para string
+      const data = {
+        ...response.data,
+      };
+  
+      // Salvando token do usuário cadastrado
+      await AsyncStorage.setItem('@OrdersAndFinds', JSON.stringify(data));
+  
+      // Guardando o token
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+      setUser({
+        id,
+        name,
+        token,
+        email,
+      });
+  
+      setLoadingAuth(false);
+  
+      console.log('Usuário cadastrado com sucesso:', response.data);
+    } catch (error) {
+      console.error('Erro ao cadastrar usuário:', error);
+  
+      // Certifique-se de que a variável error é do tipo AxiosError
+      const axiosError = error as AxiosError;
+  
+      // Verifique se axiosError.response existe antes de acessá-lo
+      if (axiosError.response) {
+        console.log('Detalhes do erro:', axiosError.response.data);
+      }
+  
+      setLoadingAuth(false);
+    }
+  }
+  
 
 async function SignIn({email,password}:SignInProps) {
    setLoadingAuth(true);
@@ -129,7 +189,7 @@ async function SignIn({email,password}:SignInProps) {
    }
 
     return(
-        <AuthContext.Provider value={{user,isAuthenticated,SignIn,loading,loadingAuth,SignOut}}>
+        <AuthContext.Provider value={{user,isAuthenticated,SignIn,loading,loadingAuth,SignOut,SignUp}}>
          {children}
         </AuthContext.Provider>
     )

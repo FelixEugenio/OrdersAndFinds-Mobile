@@ -10,6 +10,11 @@ export type propsNavigationStack = {
     MyItems:undefined
     Profile:undefined
     SignIn:undefined
+    Book:undefined
+    Horas:undefined
+    Tables:undefined
+    FinishBook:undefined
+    Reservations:undefined
     
 }
 

@@ -8,7 +8,7 @@ export default function FoundAnItem(){
     return(
      <View style={styles.container}>
         <TouchableOpacity onPress={()=>navigation.goBack()}>
-            <Text>Voltar</Text>
+            <Text></Text>
         </TouchableOpacity>
 
         <Text style={styles.Text}>Tela de FoundAnItem</Text>

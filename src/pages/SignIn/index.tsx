@@ -1,13 +1,21 @@
 import React ,{useState,useContext} from "react";
 import { StyleSheet, Text,View,Image,TextInput,TouchableOpacity,ActivityIndicator } from "react-native";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function SignIn(){
 
+  const navigation = useNavigation()
   const {SignIn,loadingAuth} = useContext(AuthContext);
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+   
+
+   function handleSigUp(){
+    navigation.navigate('SignUp')
+   }
 
    async function handleLogin(){
         if(email === "" || password === ""){
@@ -24,10 +32,10 @@ export default function SignIn(){
      <View style={styles.container}>
         <Image 
          style={styles.logo}
-         source={require('../../assets/logo.png')}
+         source={require('../../assets/mesa.png')}
         />
 
-        <Text style={styles.buttonText}>Perdidos e Achados</Text>
+        <Text style={styles.buttonText}>EasyMealReservation</Text>
 
      <View style={styles.inputContainer}>
       <TextInput
@@ -53,11 +61,13 @@ export default function SignIn(){
           loadingAuth ? (
             <ActivityIndicator size={25} color="#FF3838" />
           ) : (
-            <Text style={styles.buttonText}>Acessar</Text>
+            <Text style={styles.buttonText}>Entrar</Text>
           )}
 
       </TouchableOpacity>
+      
      </View>
+     <Text style={styles.buttonText} onPress={handleSigUp}>Crie uma conta. Clicando aqui</Text>
      </View>
     )
 }
@@ -82,7 +92,9 @@ const styles = StyleSheet.create({
      borderWidth:1,
     },
     logo:{
-      marginBottom:18
+      marginBottom:18,
+      width:80,
+      height:80
     },
     inputContainer:{
       width:'95%',
