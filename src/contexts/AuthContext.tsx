@@ -18,6 +18,7 @@ type UserProps = {
     name: string;
     email: string;
     token: string;
+    
 }
 
 type AuthProviderProps = {

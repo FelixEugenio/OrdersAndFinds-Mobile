@@ -5,9 +5,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 export type propsNavigationStack = {
     SignUp:undefined,
     Dashboard:undefined
-    FoundAnItem:undefined
-    PublishAnItem:undefined
-    MyItems:undefined
     Profile:undefined
     SignIn:undefined
     Book:undefined

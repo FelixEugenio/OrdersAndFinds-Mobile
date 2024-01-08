@@ -65,9 +65,9 @@ export default function Book() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Feather name="log-out" size={24} color="#333" />
-      </TouchableOpacity>
+      <Text style={styles.logoutButton} onPress={handleLogout}>
+        Sair
+      </Text>
       <Text style={styles.monthText}>{currentMonth.format('MMMM YYYY')}</Text>
       <View style={styles.calendarGrid}>
         {daysInMonth.map((item) => (
